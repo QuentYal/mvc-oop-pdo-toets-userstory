@@ -36,9 +36,9 @@ class Mankementen extends Controller
         $this->view('lessen/index', $data);
     }
 
-    function mankementOverzicht($lesId)
+    function mankementOverzicht($mankementId)
     {
-        $result = $this->MankementModel->getmankementOvezicht($lesId);
+        $result = $this->MankementModel->getmankementOvezicht($mankementId);
 
         if ($result) {
             $d = new DateTimeImmutable($result[0]->DatumTijd, new DateTimeZone('Europe/Amsterdam'));
@@ -59,19 +59,19 @@ class Mankementen extends Controller
         $data = [
             'title' => 'Onderwerpen Les',
             'rows' => $rows,
-            'lesId' => $mankementId,
+            'mankementId' => $mankementId,
             'date' => $date,
             'time' => $time
         ];
-        $this->view('lessen/topicslesson', $data);
+        $this->view('mankementen/MankementOverzicht', $data);
     }
 
-    function addTopic($lesId = NULL)
+    function addTopic($mankementId = NULL)
     {
         $data = [
-            'title' => 'onderwerp Toevoegen',
-            'lesId' => $lesId,
-            'topicError' => ''
+            'title' => 'Mankement Toevoegen',
+            'mankementId' => $mankementId,
+            'mankementError' => ''
         ];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -79,20 +79,20 @@ class Mankementen extends Controller
 
             $data = [
                 'title' => 'onderwerp Toevoegen',
-                'lesId' => $_POST['lesId'],
-                'topic' => $$_POST['topic'],
-                'topicError' => ''
+                'mankementId' => $_POST['mankementId'],
+                'mankement' => $$_POST['mankement'],
+                'mankementError' => ''
             ];
 
-            $data = $this->validateAddTopicForm($data);
+            $data = $this->validateAddMankementForm($data);
 
             if (empty($data['topicError'])) {
                 $result = $this->MankementModel->addTopic($_POST);
 
                 if ($result) {
-                    $data['title'] = "<p>Het nieuwe onderwerp is succesvol toegevoegd</p>";
+                    $data['title'] = "<p>Het nieuwe mankement is succesvol toegevoegd</p>";
                 } else {
-                    echo "<p>Het nieuwe onderwerp is niet toegevoegd</p>";
+                    echo "<p>Het nieuwe mankement is niet toegevoegd</p>";
                 }
                 header('Refresh:3; url=' . URLROOT . '/lessen/index');
             } else {
@@ -102,12 +102,12 @@ class Mankementen extends Controller
         $this->view('lessen/addTopic', $data);
     }
 
-    private function validateAddTopicForm($data)
+    private function validateAddMankementForm($data)
     {
-        if (strlen($data['topic']) > 255) {
-            $data['topicError'] = "Het nieuwe onderwerp bevat meer dan 255 letters.";
-        } elseif (empty($data['topic'])) {
-            $data['topicError'] = "U bent verplicht dit veld in te vullen.";
+        if (strlen($data['mankement']) > 50) {
+            $data['mankementError'] = "Het nieuwe mankement bevat meer dan 50 letters.";
+        } elseif (empty($data['mankement'])) {
+            $data['mankementError'] = "U bent verplicht dit veld in te vullen.";
         }
 
         return $data;

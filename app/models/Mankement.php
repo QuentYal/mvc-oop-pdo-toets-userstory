@@ -12,13 +12,13 @@ class Mankement
     public function getMankementen()
     {
         $this->db->query("SELECT mankement.Datum
-                                ,Leerling.Naam
-                                ,Les.Id
-                          FROM Les
-                          INNER JOIN Instructeur
-                          ON Instructeur.Id = Les.InstructeurId
-                          INNER JOIN Leerling
-                          ON Leerling.Id = Les.LeerlingId
+                                ,auto.Naam
+                                ,mankement.Id
+                          FROM instructeur
+                          INNER JOIN auto
+                          ON Instructeur.Id = auto.InstructeurId
+                          INNER JOIN mankement
+                          ON mankement.Id = mankement.AutoId
                           WHERE Instructeur.Id = :Id");
 
         $this->db->bind(':Id', 2);
