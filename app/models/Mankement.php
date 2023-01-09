@@ -1,6 +1,6 @@
 <?php
 
-class Les
+class Mankement
 {
     private $db;
 
@@ -9,9 +9,9 @@ class Les
         $this->db = new Database();
     }
 
-    public function getLessons()
+    public function getMankementen()
     {
-        $this->db->query("SELECT Les.DatumTijd
+        $this->db->query("SELECT mankement.Datum
                                 ,Leerling.Naam
                                 ,Les.Id
                           FROM Les
@@ -28,7 +28,7 @@ class Les
         return $result;
     }
 
-    public function getTopicsLesson($lessonId)
+    public function getMankementOverzicht($lessonId)
     {
         $this->db->query("SELECT *
                           FROM Onderwerp
@@ -40,7 +40,7 @@ class Les
         return $result;
     }
 
-    public function addTopic($post)
+    public function addMankement($post)
     {
         $sql = "INSERT INTO Onderwerp (LesId
                                       ,Onderwerp)

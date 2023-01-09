@@ -3,12 +3,12 @@ class Mankementen extends Controller
 {
     public function __construct()
     {
-        $this->MankementModel = $this->model('Les');
+        $this->MankementModel = $this->model('Mankement');
     }
 
     public function index()
     {
-        $result = $this->lesModel->getLessons();
+        $result = $this->MankementModel->getMankement();
 
         if ($result) {
             $instructeurNaam = $result[0]->Manhoi;
@@ -24,21 +24,21 @@ class Mankementen extends Controller
             <td>{$d->format('H:i')}</td>
             <td>$info->Manhoi</td>
             <td><a href=''><img src='" . URLROOT . "/img/b_help.png' alt='QuestionMark'></a></td>
-            <td><a href='" . URLROOT . "/lessen/MankementenOverzicht/{$info->Id}'><img src='" . URLROOT . "img/b_props.png' alt='QuestionMark'></a></td>
+            <td><a href='" . URLROOT . "/lessen/MankementOverzicht/{$info->Id}'><img src='" . URLROOT . "img/b_props.png' alt='QuestionMark'></a></td>
         </tr>";
         }
 
         $data = [
-            'title' => 'overzicht rijlessen',
+            'title' => 'overzicht Mankementen',
             'rows' => $rows,
             'instructeurNaam' => $instructeurNaam
         ];
         $this->view('lessen/index', $data);
     }
 
-    function topicsLesson($lesId)
+    function mankementOverzicht($lesId)
     {
-        $result = $this->lesModel->getTopicsLesson($lesId);
+        $result = $this->MankementModel->getmankementOvezicht($lesId);
 
         if ($result) {
             $d = new DateTimeImmutable($result[0]->DatumTijd, new DateTimeZone('Europe/Amsterdam'));
@@ -59,7 +59,7 @@ class Mankementen extends Controller
         $data = [
             'title' => 'Onderwerpen Les',
             'rows' => $rows,
-            'lesId' => $lesId,
+            'lesId' => $mankementId,
             'date' => $date,
             'time' => $time
         ];
@@ -87,7 +87,7 @@ class Mankementen extends Controller
             $data = $this->validateAddTopicForm($data);
 
             if (empty($data['topicError'])) {
-                $result = $this->lesModel->addTopic($_POST);
+                $result = $this->MankementModel->addTopic($_POST);
 
                 if ($result) {
                     $data['title'] = "<p>Het nieuwe onderwerp is succesvol toegevoegd</p>";
