@@ -6,6 +6,6 @@ define('DB_NAME', 'mvcframework');
 
 define('APPROOT', dirname(dirname(__FILE__)));
 
-define('URLROOT', 'http://mvc-oop-pdo-proeftoets-userstory.com/');
+define('URLROOT', 'http://mvc-oop-pdo-toets-userstory.com/');
 
 define('SITENAME', 'mvc-p1');
