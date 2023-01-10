@@ -4,9 +4,9 @@
     <thead>
         <th>Datum</th>
         <th>Tijd</th>
-        <th>mankementen</th>
-        <th>Lesinfo</th>
-        <th>Onderwerp</th>
+        <th>Instructeur</th>
+        <th>instructeur info</th>
+        <th>Mankementen</th>
     </thead>
     <tbody>
         <?= $data['rows'] ?>
