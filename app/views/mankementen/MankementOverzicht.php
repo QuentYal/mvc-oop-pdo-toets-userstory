@@ -11,6 +11,6 @@
     </tbody>
 </table>
 <br>
-<a href="<?= URLROOT; ?>/mankementen/addMankementen/<?= $data['mankementijd']; ?>">
+<a href="<?= URLROOT; ?>/mankementen/addMankement/<?= $data['AutoId']; ?>">
     <input type="button" value="Mankement toevoegen">
 </a>
