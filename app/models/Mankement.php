@@ -8,12 +8,13 @@ class Mankement
     {
         $this->db = new Database();
     }
-
+    
     public function getMankementen()
     {
         $this->db->query("SELECT mankement.Datum
-                                ,auto.Naam
+                                ,auto.Type
                                 ,mankement.Id
+                                ,instructeur.naam as MANHOI
                           FROM instructeur
                           INNER JOIN auto
                           ON Instructeur.Id = auto.InstructeurId
@@ -28,12 +29,12 @@ class Mankement
         return $result;
     }
 
-    public function getMankementOverzicht($lessonId)
+    public function getMankementOverzicht($AutoId)
     {
         $this->db->query("SELECT *
-                          FROM Onderwerp
-                          WHERE LesId = :lessonId");
-        $this->db->bind(':lessonId', $lessonId);
+                          FROM mankement
+                          WHERE AutoId = :AutoId");
+        $this->db->bind(':AutoId', $AutoId);
 
         $result = $this->db->resultSet();
 
@@ -42,14 +43,14 @@ class Mankement
 
     public function addMankement($post)
     {
-        $sql = "INSERT INTO Onderwerp (LesId
-                                      ,Onderwerp)
-                VALUES                (:lesId
-                                      ,:topic)";
+        $sql = "INSERT INTO Onderwerp (AutoId
+                                      ,mankement)
+                VALUES                (:AutoId
+                                      ,:mankement)";
 
         $this->db->query($sql);
-        $this->db->bind(':lesId', $post['lesId'], PDO::PARAM_INT);
-        $this->db->bind(':topic', $post['topic'], PDO::PARAM_STR);
+        $this->db->bind(':AutoId', $post['AutoId'], PDO::PARAM_INT);
+        $this->db->bind(':mankement', $post['mankement'], PDO::PARAM_STR);
         return $this->db->execute();
     }
 }

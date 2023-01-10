@@ -8,10 +8,10 @@ class Mankementen extends Controller
 
     public function index()
     {
-        $result = $this->MankementModel->getMankement();
+        $result = $this->MankementModel->getMankementen();
 
         if ($result) {
-            $instructeurNaam = $result[0]->Manhoi;
+            $instructeurNaam = $result[0]->MANHOI;
         } else {
             $instructeurNaam = '';
         }
@@ -22,9 +22,9 @@ class Mankementen extends Controller
             $rows .= "<tr>
             <td>{$d->format('d-m-Y')}</td>
             <td>{$d->format('H:i')}</td>
-            <td>$info->Manhoi</td>
+            <td>$info->MANHOI</td>
             <td><a href=''><img src='" . URLROOT . "/img/b_help.png' alt='QuestionMark'></a></td>
-            <td><a href='" . URLROOT . "/lessen/MankementOverzicht/{$info->Id}'><img src='" . URLROOT . "img/b_props.png' alt='QuestionMark'></a></td>
+            <td><a href='" . URLROOT . "/mankementen/MankementOverzicht/{$info->Id}'><img src='" . URLROOT . "img/b_props.png' alt='QuestionMark'></a></td>
         </tr>";
         }
 
@@ -33,15 +33,15 @@ class Mankementen extends Controller
             'rows' => $rows,
             'instructeurNaam' => $instructeurNaam
         ];
-        $this->view('lessen/index', $data);
+        $this->view('mankementen/index', $data);
     }
 
-    function mankementOverzicht($mankementId)
+    function mankementOverzicht($AutoId)
     {
-        $result = $this->MankementModel->getmankementOvezicht($mankementId);
+        $result = $this->MankementModel->getMankementOverzicht($AutoId);
 
         if ($result) {
-            $d = new DateTimeImmutable($result[0]->DatumTijd, new DateTimeZone('Europe/Amsterdam'));
+            $d = new DateTimeImmutable($result[0]->Datum, new DateTimeZone('Europe/Amsterdam'));
             $date = $d->format('d-m-Y');
             $time = $d->format('H:i');
         } else {
@@ -53,24 +53,24 @@ class Mankementen extends Controller
 
         foreach ($result as $topic) {
             $rows .= "<tr>
-                        <td>$topic->onderwerp</td>
+                        <td>$topic->Mankement</td>
                       </tr>";
         }
         $data = [
-            'title' => 'Onderwerpen Les',
+            'title' => 'Mankementen',
             'rows' => $rows,
-            'mankementId' => $mankementId,
+            'AutoId' => $AutoId,
             'date' => $date,
             'time' => $time
         ];
         $this->view('mankementen/MankementOverzicht', $data);
     }
 
-    function addTopic($mankementId = NULL)
+    function addTopic($AutoId = NULL)
     {
         $data = [
             'title' => 'Mankement Toevoegen',
-            'mankementId' => $mankementId,
+            'AutoId' => $AutoId,
             'mankementError' => ''
         ];
 
@@ -79,7 +79,7 @@ class Mankementen extends Controller
 
             $data = [
                 'title' => 'onderwerp Toevoegen',
-                'mankementId' => $_POST['mankementId'],
+                'AutoId' => $_POST['AutoId'],
                 'mankement' => $$_POST['mankement'],
                 'mankementError' => ''
             ];
@@ -94,12 +94,12 @@ class Mankementen extends Controller
                 } else {
                     echo "<p>Het nieuwe mankement is niet toegevoegd</p>";
                 }
-                header('Refresh:3; url=' . URLROOT . '/lessen/index');
+                header('Refresh:3; url=' . URLROOT . '/mankementen/index');
             } else {
-                Header('Refresh:3; url=' . URLROOT . '/lessen/addTopic/' . $data['lesId']);
+                Header('Refresh:3; url=' . URLROOT . '/mankementen/addTopic/' . $data['mankementId']);
             }
         }
-        $this->view('lessen/addTopic', $data);
+        $this->view('mankementen/addTopic', $data);
     }
 
     private function validateAddMankementForm($data)
